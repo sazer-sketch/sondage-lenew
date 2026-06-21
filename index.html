@@ -498,6 +498,17 @@ async function submitForm() {
   answers['q17'] = document.getElementById('q17').value;
   answers['timestamp'] = new Date().toISOString();
 
+  // Envoyer vers Google Sheets
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGDNgSmthDmVYWjgYjKdrwHBbq1H2Xv4hPWBIp1tvt56ki72BUISNPDMKUecyM-rRa6w/exec';
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(answers)
+    });
+  } catch(e) { console.error('Erreur envoi:', e); }
+
   await saveResult({ ...answers });
 
   // Go to thanks
